@@ -6,8 +6,8 @@ import tailwind from "@astrojs/tailwind";
 // - "base" só é necessário se o repositório NÃO se chamar "usuario.github.io"
 //   (ex.: repo "expedicoes" publicado em usuario.github.io/expedicoes -> base: '/expedicoes')
 export default defineConfig({
-    site: "https://SEU-USUARIO.github.io",
-    base: "/",
+    site: "https://phamaralbr.github.io",
+    base: "/siriema",
     trailingSlash: "always",
     integrations: [tailwind({ applyBaseStyles: false })],
 });

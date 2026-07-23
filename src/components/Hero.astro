@@ -1,0 +1,58 @@
+---
+import { SITE, whatsappLink } from '../config/site';
+
+interface Props {
+  expeditionCount: number;
+}
+const { expeditionCount } = Astro.props;
+---
+
+<section class="relative overflow-hidden bg-ink text-parchment">
+  <!-- Assinatura visual: curvas de nível, como um mapa topográfico -->
+  <svg
+    class="pointer-events-none absolute inset-0 h-full w-full opacity-[0.14]"
+    viewBox="0 0 1000 600"
+    preserveAspectRatio="xMidYMid slice"
+    aria-hidden="true"
+  >
+    <g fill="none" stroke="#F1ECDE" stroke-width="1.2">
+      <path d="M-50 100 Q150 20 350 100 T750 100 T1150 100" />
+      <path d="M-50 170 Q150 90 350 170 T750 170 T1150 170" />
+      <path d="M-50 240 Q150 160 350 240 T750 240 T1150 240" />
+      <path d="M-50 310 Q150 230 350 310 T750 310 T1150 310" />
+      <path d="M-50 380 Q150 300 350 380 T750 380 T1150 380" />
+      <path d="M-50 450 Q150 370 350 450 T750 450 T1150 450" />
+      <path d="M-50 520 Q150 440 350 520 T750 520 T1150 520" />
+    </g>
+  </svg>
+
+  <div class="relative mx-auto max-w-content px-5 py-20 sm:px-8 sm:py-28">
+    <p class="eyebrow mb-5">Catálogo {new Date().getFullYear()} · {expeditionCount} roteiros ativos</p>
+
+    <h1 class="max-w-2xl font-display text-4xl font-semibold leading-[1.08] tracking-tight sm:text-6xl">
+      {SITE.tagline}
+    </h1>
+
+    <p class="mt-6 max-w-lg font-body text-base leading-relaxed text-parchment/80 sm:text-lg">
+      Roteiro, inclusões e valores de cada expedição, tudo em uma página.
+      Escolheu a trilha? Você fala direto com a gente pelo WhatsApp. Sem
+      formulário, sem espera.
+    </p>
+
+    <div class="mt-10 flex flex-wrap items-center gap-4">
+      <a href="#expedicoes" class="btn-whatsapp bg-parchment !text-ink hover:!bg-white">
+        Ver expedições
+      </a>
+      <a
+        href={whatsappLink()}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="font-body text-sm text-parchment/80 underline decoration-rust decoration-2 underline-offset-4 transition-colors hover:text-parchment"
+      >
+        Já sei o que quero, falar no WhatsApp →
+      </a>
+    </div>
+  </div>
+
+  <div class="contour-divider relative"></div>
+</section>

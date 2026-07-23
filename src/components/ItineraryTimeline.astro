@@ -1,0 +1,31 @@
+---
+interface DayEntry {
+  day: number;
+  title: string;
+  description: string;
+}
+interface Props {
+  itinerary: DayEntry[];
+}
+const { itinerary } = Astro.props;
+const sorted = [...itinerary].sort((a, b) => a.day - b.day);
+---
+
+{sorted.length > 0 && (
+  <div>
+    <h2 class="font-display text-2xl font-semibold text-ink">Itinerário</h2>
+    <ol class="relative mt-8 border-l-2 border-sand pl-8">
+      {sorted.map((entry) => (
+        <li class="relative mb-10 last:mb-0">
+          <!-- Marcador de "waypoint" na trilha -->
+          <span class="absolute -left-[2.55rem] flex h-8 w-8 items-center justify-center rounded-full border-2 border-rust bg-parchment font-mono text-xs font-medium text-rust">
+            {entry.day}
+          </span>
+          <p class="eyebrow mb-1">Dia {entry.day}</p>
+          <h3 class="font-display text-lg font-semibold text-ink">{entry.title}</h3>
+          <p class="mt-1.5 max-w-2xl text-sm leading-relaxed text-stone">{entry.description}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+)}

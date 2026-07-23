@@ -1,0 +1,19 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import ExpeditionGrid from '../components/ExpeditionGrid.astro';
+import Footer from '../components/Footer.astro';
+import WhatsAppFloat from '../components/WhatsAppFloat.astro';
+
+const expeditions = await getCollection('expeditions');
+---
+
+<Layout>
+  <Header />
+  <Hero expeditionCount={expeditions.length} />
+  <ExpeditionGrid expeditions={expeditions} />
+  <Footer />
+  <WhatsAppFloat />
+</Layout>

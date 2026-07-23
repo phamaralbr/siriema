@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-parchment text-ink font-body antialiased;
+  }
+  ::selection {
+    @apply bg-rust/20 text-ink;
+  }
+  :focus-visible {
+    outline: 2px solid theme('colors.rust');
+    outline-offset: 3px;
+  }
+}
+
+@layer components {
+  /* Divisor com motivo de curvas de nível (linha de contorno topográfico) */
+  .contour-divider {
+    height: 14px;
+    background-repeat: repeat-x;
+    background-size: 120px 14px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='14' viewBox='0 0 120 14'%3E%3Cpath d='M0 7 Q15 0 30 7 T60 7 T90 7 T120 7' fill='none' stroke='%23B5502D' stroke-width='1.4' stroke-opacity='0.5'/%3E%3C/svg%3E");
+  }
+
+  .btn-whatsapp {
+    @apply inline-flex items-center gap-2 rounded-full bg-rust px-6 py-3
+           font-body font-medium text-parchment shadow-sm
+           transition-transform duration-150 ease-out
+           hover:bg-rust-dark hover:-translate-y-0.5 active:translate-y-0;
+  }
+
+  .eyebrow {
+    @apply font-mono text-xs uppercase tracking-[0.18em] text-rust;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

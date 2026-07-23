@@ -1,0 +1,42 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import ExpeditionCard from './ExpeditionCard.astro';
+import { isPast } from '../lib/dates';
+
+interface Props {
+  expeditions: CollectionEntry<'expeditions'>[];
+}
+const { expeditions } = Astro.props;
+
+// Expedições acontecem uma única vez: some do catálogo assim que a data passa
+// (mas sem data definida continua aparecendo normalmente).
+const active = expeditions.filter((e) => !e.data.date || !isPast(e.data.date));
+const sorted = [...active].sort((a, b) => a.data.order - b.data.order);
+---
+
+<section id="expedicoes" class="mx-auto max-w-content px-5 py-20 sm:px-8">
+  <div class="mb-12 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+    <div>
+      <p class="eyebrow mb-3">O catálogo</p>
+      <h2 class="font-display text-3xl font-semibold text-ink sm:text-4xl">
+        Expedições disponíveis
+      </h2>
+    </div>
+    <p class="max-w-sm text-sm text-stone">
+      Cada roteiro mostra o itinerário dia a dia e o que está incluso.
+      Qualquer dúvida, é só chamar no WhatsApp.
+    </p>
+  </div>
+
+  <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    {sorted.map((expedition) => (
+      <ExpeditionCard expedition={expedition} />
+    ))}
+  </div>
+
+  {sorted.length === 0 && (
+    <p class="rounded-xl border border-dashed border-sand p-10 text-center text-stone">
+      Nenhuma expedição publicada ainda. Adicione uma pelo painel de conteúdo (/admin).
+    </p>
+  )}
+</section>

@@ -1,0 +1,58 @@
+---
+import { SITE, whatsappLink } from '../config/site';
+---
+
+<footer id="sobre" class="bg-ink text-parchment">
+  <div class="mx-auto max-w-content px-5 py-16 sm:px-8">
+    <div class="grid grid-cols-1 gap-10 sm:grid-cols-3">
+      <div>
+        {SITE.logoDark || SITE.logo ? (
+          <img
+            src={SITE.logoDark ?? SITE.logo ?? ''}
+            alt={SITE.logoAlt}
+            class="h-12 w-auto sm:h-14"
+          />
+        ) : (
+          <p class="font-display text-xl font-semibold">{SITE.name}</p>
+        )}
+        <p class="mt-3 max-w-xs text-sm leading-relaxed text-parchment/70">
+          {SITE.description}
+        </p>
+      </div>
+
+      <div>
+        <p class="eyebrow mb-3">Como funciona</p>
+        <ol class="space-y-2 text-sm text-parchment/80">
+          <li>1. Escolha a expedição no catálogo</li>
+          <li>2. Confira o itinerário e o que está incluso</li>
+          <li>3. Chame no WhatsApp para reservar sua vaga</li>
+        </ol>
+      </div>
+
+      <div>
+        <p class="eyebrow mb-3">Contato</p>
+        <ul class="space-y-2 text-sm text-parchment/80">
+          <li>
+            <a href={whatsappLink()} target="_blank" rel="noopener noreferrer" class="hover:text-parchment">
+              WhatsApp
+            </a>
+          </li>
+          <li>
+            <a href={`mailto:${SITE.email}`} class="hover:text-parchment">{SITE.email}</a>
+          </li>
+          <li>
+            <a href={SITE.instagram} target="_blank" rel="noopener noreferrer" class="hover:text-parchment">
+              Instagram
+            </a>
+          </li>
+          <li class="text-parchment/50">{SITE.city}</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-12 flex flex-col gap-2 border-t border-parchment/15 pt-6 text-xs text-parchment/50 sm:flex-row sm:items-center sm:justify-between">
+      <p>&copy; {new Date().getFullYear()} {SITE.name}. Todos os direitos reservados.</p>
+      <a href="/admin/" class="hover:text-parchment/80">Editar conteúdo</a>
+    </div>
+  </div>
+</footer>

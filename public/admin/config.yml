@@ -1,0 +1,94 @@
+backend:
+  name: github
+  repo: SEU-USUARIO/SEU-REPOSITORIO   # ⚠️ ajuste para "usuario/repositorio"
+  branch: main
+  # Sem base_url: o login funciona pelo botão "Sign In with Token" (token
+  # pessoal do GitHub), sem precisar de nenhum servidor de autenticação.
+  # Veja o passo a passo no README, seção "Como acessar o /admin".
+
+# Evita commits direto na branch principal: cada edição vira um Pull Request
+# que você pode revisar antes de publicar. Remova esta linha se preferir
+# publicar direto.
+publish_mode: editorial_workflow
+
+media_folder: "public/images/expeditions"
+public_folder: "/images/expeditions"
+
+collections:
+  - name: "expeditions"
+    label: "Expedições"
+    label_singular: "Expedição"
+    folder: "src/content/expeditions"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    format: "frontmatter"
+    extension: "md"
+    identifier_field: title
+    summary: "{{title}} — {{location}}"
+    sortable_fields: ["order", "priceFrom", "durationDays"]
+    fields:
+      - { label: "Título", name: "title", widget: "string" }
+      - { label: "Subtítulo (frase curta)", name: "subtitle", widget: "string" }
+      - { label: "Destaque na home?", name: "featured", widget: "boolean", default: false }
+      - { label: "Ordem de exibição", name: "order", widget: "number", default: 99, hint: "Menor número aparece primeiro" }
+
+      - { label: "Imagem de capa", name: "cover", widget: "image" }
+      - { label: "Texto alternativo da capa", name: "coverAlt", widget: "string" }
+      - { label: "Galeria de fotos", name: "gallery", widget: "list", field: { label: "Foto", name: "photo", widget: "image" }, required: false }
+
+      - { label: "Localização", name: "location", widget: "string", hint: "Ex: Rio de Janeiro, RJ" }
+      - { label: "Duração (dias)", name: "durationDays", widget: "number" }
+      - label: "Dificuldade"
+        name: "difficulty"
+        widget: "select"
+        options: ["Leve", "Moderada", "Intensa"]
+      - { label: "Tamanho do grupo", name: "groupSize", widget: "string", required: false, hint: "Ex: 6 a 12 pessoas" }
+
+      - { label: "Preço a partir de (R$)", name: "priceFrom", widget: "number" }
+      - { label: "Observação do preço", name: "priceNote", widget: "string", default: "por pessoa" }
+
+      - label: "Destaques (tags curtas)"
+        name: "highlights"
+        widget: "list"
+        required: false
+        field: { label: "Destaque", name: "item", widget: "string" }
+
+      - label: "Itinerário"
+        name: "itinerary"
+        widget: "list"
+        required: false
+        summary: "Dia {{fields.day}}: {{fields.title}}"
+        fields:
+          - { label: "Dia", name: "day", widget: "number" }
+          - { label: "Título do dia", name: "title", widget: "string" }
+          - { label: "Descrição", name: "description", widget: "text" }
+
+      - label: "O que está incluso"
+        name: "includes"
+        widget: "list"
+        required: false
+        field: { label: "Item", name: "item", widget: "string" }
+
+      - label: "O que não está incluso"
+        name: "excludes"
+        widget: "list"
+        required: false
+        field: { label: "Item", name: "item", widget: "string" }
+
+      - label: "Data da expedição"
+        name: "date"
+        widget: "date"
+        required: false
+        hint: "Cada expedição acontece uma vez. Some do catálogo sozinha assim que a data passar."
+
+      - label: "Mensagem personalizada do WhatsApp"
+        name: "whatsappMessage"
+        widget: "text"
+        required: false
+        hint: "Se vazio, usa a mensagem padrão do site"
+
+      - label: "Descrição completa"
+        name: "body"
+        widget: "markdown"
+        required: false

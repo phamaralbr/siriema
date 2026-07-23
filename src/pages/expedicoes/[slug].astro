@@ -1,0 +1,115 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import ItineraryTimeline from '../../components/ItineraryTimeline.astro';
+import InclusionsList from '../../components/InclusionsList.astro';
+import Footer from '../../components/Footer.astro';
+import WhatsAppFloat from '../../components/WhatsAppFloat.astro';
+import { whatsappLink } from '../../config/site';
+import { formatDateLong } from '../../lib/dates';
+
+export async function getStaticPaths() {
+  const expeditions = await getCollection('expeditions');
+  return expeditions.map((expedition) => ({
+    params: { slug: expedition.slug },
+    props: { expedition },
+  }));
+}
+
+const { expedition } = Astro.props;
+const e = expedition.data;
+const { Content } = await expedition.render();
+
+const priceFormatted = new Intl.NumberFormat('pt-BR', {
+  style: 'currency',
+  currency: 'BRL',
+  maximumFractionDigits: 0,
+}).format(e.priceFrom);
+
+const ctaLink = whatsappLink(
+  e.whatsappMessage ?? `Olá! Tenho interesse na expedição "${e.title}". Pode me passar mais detalhes?`
+);
+---
+
+<Layout title={e.title} description={e.subtitle} image={e.cover}>
+  <Header />
+
+  <section class="relative">
+    <div class="aspect-[16/9] w-full overflow-hidden bg-sand sm:aspect-[21/9]">
+      <img src={e.cover} alt={e.coverAlt} class="h-full w-full object-cover" />
+    </div>
+    <div class="contour-divider"></div>
+  </section>
+
+  <section class="mx-auto max-w-content px-5 py-14 sm:px-8">
+    <a href="/#expedicoes" class="text-sm text-stone hover:text-ink">← Voltar ao catálogo</a>
+
+    <div class="mt-6 flex flex-col gap-8 lg:flex-row lg:gap-16">
+      <div class="flex-1">
+        <p class="eyebrow mb-2">{e.location} · {e.difficulty}</p>
+        <h1 class="font-display text-3xl font-semibold text-ink sm:text-4xl">{e.title}</h1>
+        <p class="mt-3 max-w-xl text-base text-stone">{e.subtitle}</p>
+
+        {e.highlights.length > 0 && (
+          <ul class="mt-6 flex flex-wrap gap-2">
+            {e.highlights.map((h) => (
+              <li class="rounded-full border border-sand bg-white/60 px-3 py-1 font-mono text-xs text-stone">
+                {h}
+              </li>
+            ))}
+          </ul>
+        )}
+
+        <div class="prose prose-sm mt-8 max-w-none prose-headings:font-display prose-headings:text-ink prose-p:text-stone prose-p:leading-relaxed">
+          <Content />
+        </div>
+
+        <div class="mt-12">
+          <ItineraryTimeline itinerary={e.itinerary} />
+        </div>
+
+        <div class="mt-12">
+          <InclusionsList includes={e.includes} excludes={e.excludes} />
+        </div>
+      </div>
+
+      <aside class="h-fit rounded-2xl border border-sand bg-white/70 p-6 lg:sticky lg:top-24 lg:w-80">
+        <p class="font-mono text-xs uppercase tracking-wide text-stone">a partir de</p>
+        <p class="font-display text-3xl font-semibold text-ink">{priceFormatted}</p>
+        <p class="text-sm text-stone">{e.priceNote}</p>
+
+        <dl class="mt-5 space-y-2 border-t border-sand pt-4 text-sm">
+          <div class="flex justify-between">
+            <dt class="text-stone">Duração</dt>
+            <dd class="font-medium text-ink">{e.durationDays} {e.durationDays === 1 ? 'dia' : 'dias'}</dd>
+          </div>
+          {e.groupSize && (
+            <div class="flex justify-between">
+              <dt class="text-stone">Grupo</dt>
+              <dd class="font-medium text-ink">{e.groupSize}</dd>
+            </div>
+          )}
+          <div class="flex justify-between">
+            <dt class="text-stone">Dificuldade</dt>
+            <dd class="font-medium text-ink">{e.difficulty}</dd>
+          </div>
+        </dl>
+
+        {e.date && (
+          <div class="mt-5 border-t border-sand pt-4">
+            <p class="font-mono text-xs uppercase tracking-wide text-stone">Data da expedição</p>
+            <p class="mt-1 text-sm font-medium text-ink">{formatDateLong(e.date)}</p>
+          </div>
+        )}
+
+        <a href={ctaLink} target="_blank" rel="noopener noreferrer" class="btn-whatsapp mt-6 w-full justify-center">
+          Reservar pelo WhatsApp
+        </a>
+      </aside>
+    </div>
+  </section>
+
+  <Footer />
+  <WhatsAppFloat message={e.whatsappMessage ?? `Olá! Tenho interesse na expedição "${e.title}".`} />
+</Layout>

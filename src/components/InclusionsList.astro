@@ -1,0 +1,43 @@
+---
+interface Props {
+  includes: string[];
+  excludes: string[];
+}
+const { includes, excludes } = Astro.props;
+---
+
+{(includes.length > 0 || excludes.length > 0) && (
+  <div class="grid grid-cols-1 gap-8 sm:grid-cols-2">
+    {includes.length > 0 && (
+      <div class="rounded-2xl border border-sand bg-white/60 p-6">
+        <h3 class="font-display text-lg font-semibold text-ink">O que está incluso</h3>
+        <ul class="mt-4 space-y-2.5">
+          {includes.map((item) => (
+            <li class="flex items-start gap-2.5 text-sm text-stone">
+              <svg class="mt-0.5 h-4 w-4 flex-shrink-0 text-moss" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <path d="M4 10.5L8 14.5L16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+
+    {excludes.length > 0 && (
+      <div class="rounded-2xl border border-sand bg-white/40 p-6">
+        <h3 class="font-display text-lg font-semibold text-ink">Não incluso</h3>
+        <ul class="mt-4 space-y-2.5">
+          {excludes.map((item) => (
+            <li class="flex items-start gap-2.5 text-sm text-stone">
+              <svg class="mt-0.5 h-4 w-4 flex-shrink-0 text-stone/60" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <path d="M5 5L15 15M15 5L5 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+  </div>
+)}

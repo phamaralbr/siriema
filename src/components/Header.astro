@@ -1,12 +1,13 @@
 ---
 import { SITE, whatsappLink } from '../config/site';
+import { withBase } from '../lib/url';
 ---
 
 <header class="sticky top-0 z-40 border-b border-sand/70 bg-parchment/90 backdrop-blur">
   <div class="mx-auto flex max-w-content items-center justify-between px-5 py-4 sm:px-8">
-    <a href="/" class="flex items-center gap-2">
+    <a href={withBase('/')} class="flex items-center gap-2">
       {SITE.logo ? (
-        <img src={SITE.logo} alt={SITE.logoAlt} class="h-12 w-auto sm:h-14" />
+        <img src={withBase(SITE.logo)} alt={SITE.logoAlt} class="h-12 w-auto sm:h-14" />
       ) : (
         <span class="font-display text-xl font-semibold tracking-tight text-ink">
           {SITE.name}
@@ -15,10 +16,10 @@ import { SITE, whatsappLink } from '../config/site';
     </a>
 
     <nav class="hidden items-center gap-8 sm:flex">
-      <a href="#expedicoes" class="font-body text-sm text-stone transition-colors hover:text-ink">
+      <a href={`${withBase('/')}#expedicoes`} class="font-body text-sm text-stone transition-colors hover:text-ink">
         Expedições
       </a>
-      <a href="#sobre" class="font-body text-sm text-stone transition-colors hover:text-ink">
+      <a href={`${withBase('/')}#sobre`} class="font-body text-sm text-stone transition-colors hover:text-ink">
         Como funciona
       </a>
       <a

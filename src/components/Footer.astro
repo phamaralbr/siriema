@@ -1,5 +1,6 @@
 ---
 import { SITE, whatsappLink } from '../config/site';
+import { withBase } from '../lib/url';
 ---
 
 <footer id="sobre" class="bg-ink text-parchment">
@@ -8,7 +9,7 @@ import { SITE, whatsappLink } from '../config/site';
       <div>
         {SITE.logoDark || SITE.logo ? (
           <img
-            src={SITE.logoDark ?? SITE.logo ?? ''}
+            src={withBase(SITE.logoDark ?? SITE.logo ?? '')}
             alt={SITE.logoAlt}
             class="h-12 w-auto sm:h-14"
           />
@@ -52,7 +53,7 @@ import { SITE, whatsappLink } from '../config/site';
 
     <div class="mt-12 flex flex-col gap-2 border-t border-parchment/15 pt-6 text-xs text-parchment/50 sm:flex-row sm:items-center sm:justify-between">
       <p>&copy; {new Date().getFullYear()} {SITE.name}. Todos os direitos reservados.</p>
-      <a href="/admin/" class="hover:text-parchment/80">Editar conteúdo</a>
+      <a href={withBase('/admin/')} class="hover:text-parchment/80">Editar conteúdo</a>
     </div>
   </div>
 </footer>

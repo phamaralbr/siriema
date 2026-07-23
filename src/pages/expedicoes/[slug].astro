@@ -8,6 +8,7 @@ import Footer from '../../components/Footer.astro';
 import WhatsAppFloat from '../../components/WhatsAppFloat.astro';
 import { whatsappLink } from '../../config/site';
 import { formatDateLong } from '../../lib/dates';
+import { withBase } from '../../lib/url';
 
 export async function getStaticPaths() {
   const expeditions = await getCollection('expeditions');
@@ -27,23 +28,26 @@ const priceFormatted = new Intl.NumberFormat('pt-BR', {
   maximumFractionDigits: 0,
 }).format(e.priceFrom);
 
+const coverSrc = withBase(e.cover);
+const backHref = `${withBase('/')}#expedicoes`;
+
 const ctaLink = whatsappLink(
   e.whatsappMessage ?? `Olá! Tenho interesse na expedição "${e.title}". Pode me passar mais detalhes?`
 );
 ---
 
-<Layout title={e.title} description={e.subtitle} image={e.cover}>
+<Layout title={e.title} description={e.subtitle} image={coverSrc}>
   <Header />
 
   <section class="relative">
     <div class="aspect-[16/9] w-full overflow-hidden bg-sand sm:aspect-[21/9]">
-      <img src={e.cover} alt={e.coverAlt} class="h-full w-full object-cover" />
+      <img src={coverSrc} alt={e.coverAlt} class="h-full w-full object-cover" />
     </div>
     <div class="contour-divider"></div>
   </section>
 
   <section class="mx-auto max-w-content px-5 py-14 sm:px-8">
-    <a href="/#expedicoes" class="text-sm text-stone hover:text-ink">← Voltar ao catálogo</a>
+    <a href={backHref} class="text-sm text-stone hover:text-ink">← Voltar ao catálogo</a>
 
     <div class="mt-6 flex flex-col gap-8 lg:flex-row lg:gap-16">
       <div class="flex-1">

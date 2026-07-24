@@ -31,8 +31,8 @@ collections:
       format: "frontmatter"
       extension: "md"
       identifier_field: title
-      summary: "{{title}} — {{location}}"
-      sortable_fields: ["date", "priceFrom", "durationDays"]
+      summary: "{{date}} - {{title}} - {{location}}"
+      sortable_fields: ["date", "title", "location"]
       fields:
           - { label: "Título", name: "title", widget: "string" }
           - {

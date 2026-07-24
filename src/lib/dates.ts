@@ -10,30 +10,50 @@
 
 /** Verdadeiro se a data já passou (comparando só o dia, em UTC). */
 export function isPast(date: Date): boolean {
-  const todayUTC = new Date();
-  todayUTC.setUTCHours(0, 0, 0, 0);
-  return date.getTime() < todayUTC.getTime();
+    const todayUTC = new Date();
+    todayUTC.setUTCHours(0, 0, 0, 0);
+    return date.getTime() < todayUTC.getTime();
 }
 
 const SHORT_MONTHS = [
-  'jan', 'fev', 'mar', 'abr', 'mai', 'jun',
-  'jul', 'ago', 'set', 'out', 'nov', 'dez',
+    "jan",
+    "fev",
+    "mar",
+    "abr",
+    "mai",
+    "jun",
+    "jul",
+    "ago",
+    "set",
+    "out",
+    "nov",
+    "dez",
 ];
 const LONG_MONTHS = [
-  'janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho',
-  'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro',
+    "janeiro",
+    "fevereiro",
+    "março",
+    "abril",
+    "maio",
+    "junho",
+    "julho",
+    "agosto",
+    "setembro",
+    "outubro",
+    "novembro",
+    "dezembro",
 ];
 
 /** Formato curto, ex: "15 ago" — usado em cards e badges. */
 export function formatDateShort(date: Date): string {
-  const day = date.getUTCDate().toString().padStart(2, '0');
-  return `${day} ${SHORT_MONTHS[date.getUTCMonth()]}`;
+    const day = date.getUTCDate().toString().padStart(2, "0");
+    return `${day} ${SHORT_MONTHS[date.getUTCMonth()]}`;
 }
 
 /** Formato longo, ex: "15 de agosto de 2026" — usado na página de detalhe. */
 export function formatDateLong(date: Date): string {
-  const day = date.getUTCDate().toString().padStart(2, '0');
-  return `${day} de ${LONG_MONTHS[date.getUTCMonth()]} de ${date.getUTCFullYear()}`;
+    const day = date.getUTCDate().toString().padStart(2, "0");
+    return `${day} de ${LONG_MONTHS[date.getUTCMonth()]} de ${date.getUTCFullYear()}`;
 }
 
 /**
@@ -42,15 +62,18 @@ export function formatDateLong(date: Date): string {
  * `start`, cai no formato de data única ("15 ago").
  */
 export function formatDateRangeShort(start: Date, end?: Date): string {
-  if (!end || end.getTime() === start.getTime()) {
-    return formatDateShort(start);
-  }
-  const startDay = start.getUTCDate().toString().padStart(2, '0');
-  const endDay = end.getUTCDate().toString().padStart(2, '0');
-  if (start.getUTCMonth() === end.getUTCMonth() && start.getUTCFullYear() === end.getUTCFullYear()) {
-    return `${startDay}–${endDay} ${SHORT_MONTHS[start.getUTCMonth()]}`;
-  }
-  return `${startDay} ${SHORT_MONTHS[start.getUTCMonth()]}–${endDay} ${SHORT_MONTHS[end.getUTCMonth()]}`;
+    if (!end || end.getTime() === start.getTime()) {
+        return formatDateShort(start);
+    }
+    const startDay = start.getUTCDate().toString().padStart(2, "0");
+    const endDay = end.getUTCDate().toString().padStart(2, "0");
+    if (
+        start.getUTCMonth() === end.getUTCMonth() &&
+        start.getUTCFullYear() === end.getUTCFullYear()
+    ) {
+        return `${startDay} – ${endDay} ${SHORT_MONTHS[start.getUTCMonth()]}`;
+    }
+    return `${startDay} ${SHORT_MONTHS[start.getUTCMonth()]} – ${endDay} ${SHORT_MONTHS[end.getUTCMonth()]}`;
 }
 
 /**
@@ -60,18 +83,18 @@ export function formatDateRangeShort(start: Date, end?: Date): string {
  * Se `end` não vier ou for igual a `start`, cai no formato de data única.
  */
 export function formatDateRangeLong(start: Date, end?: Date): string {
-  if (!end || end.getTime() === start.getTime()) {
-    return formatDateLong(start);
-  }
+    if (!end || end.getTime() === start.getTime()) {
+        return formatDateLong(start);
+    }
 
-  const startDay = start.getUTCDate();
-  const endDay = end.getUTCDate();
+    const startDay = start.getUTCDate();
+    const endDay = end.getUTCDate();
 
-  if (start.getUTCFullYear() !== end.getUTCFullYear()) {
-    return `${startDay} de ${LONG_MONTHS[start.getUTCMonth()]} de ${start.getUTCFullYear()} a ${endDay} de ${LONG_MONTHS[end.getUTCMonth()]} de ${end.getUTCFullYear()}`;
-  }
-  if (start.getUTCMonth() !== end.getUTCMonth()) {
-    return `${startDay} de ${LONG_MONTHS[start.getUTCMonth()]} a ${endDay} de ${LONG_MONTHS[end.getUTCMonth()]} de ${end.getUTCFullYear()}`;
-  }
-  return `${startDay} a ${endDay} de ${LONG_MONTHS[start.getUTCMonth()]} de ${start.getUTCFullYear()}`;
+    if (start.getUTCFullYear() !== end.getUTCFullYear()) {
+        return `${startDay} de ${LONG_MONTHS[start.getUTCMonth()]} de ${start.getUTCFullYear()} a ${endDay} de ${LONG_MONTHS[end.getUTCMonth()]} de ${end.getUTCFullYear()}`;
+    }
+    if (start.getUTCMonth() !== end.getUTCMonth()) {
+        return `${startDay} de ${LONG_MONTHS[start.getUTCMonth()]} a ${endDay} de ${LONG_MONTHS[end.getUTCMonth()]} de ${end.getUTCFullYear()}`;
+    }
+    return `${startDay} a ${endDay} de ${LONG_MONTHS[start.getUTCMonth()]} de ${start.getUTCFullYear()}`;
 }

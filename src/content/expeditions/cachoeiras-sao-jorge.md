@@ -2,7 +2,7 @@
 title: "Circuito de Cachoeiras de São Jorge"
 subtitle: "1 dia leve entre poços naturais e cachoeiras na vila mais boêmia do cerrado"
 featured: true
-cover: "/images/expeditions/cachoeiras-sao-jorge.png"
+cover: "/images/expeditions/cachoeiras-sao-jorge.jpg"
 location: "São Jorge, Chapada dos Veadeiros, GO"
 durationDays: 1
 difficulty: "Leve"

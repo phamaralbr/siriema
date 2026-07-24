@@ -1,7 +1,7 @@
 ---
 title: "Brasília Modernista: Roteiro Niemeyer"
 subtitle: 1 dia percorrendo os ícones da arquitetura que virou Patrimônio da Humanidade
-cover: /images/expeditions/brasilia-modernista.png
+cover: /images/expeditions/brasilia-modernista.jpg
 location: Brasília, DF
 durationDays: 1
 date: 2026-09-19

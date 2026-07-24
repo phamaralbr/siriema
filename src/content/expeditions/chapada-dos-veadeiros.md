@@ -1,7 +1,7 @@
 ---
 title: Trilha Vale da Lua
 subtitle: 2 dias leves entre cânions, cachoeiras e céu estrelado
-cover: /images/expeditions/chapada.png
+cover: /images/expeditions/chapada.jpg
 location: Alto Paraíso, GO
 durationDays: 2
 date: 2026-11-22

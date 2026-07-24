@@ -2,6 +2,8 @@
 
 A static catalog site for a travel agency. No backend, no database: Astro generates the pages, Sveltia CMS edits the content, GitHub Pages hosts it for free.
 
+![Site preview](public/preview.png)
+
 ## Stack
 
 - **Astro** — static site generator

@@ -18,7 +18,7 @@ const sorted = [...itinerary].sort((a, b) => a.day - b.day);
       {sorted.map((entry) => (
         <li class="relative mb-10 last:mb-0">
           <!-- Marcador de "waypoint" na trilha -->
-          <span class="absolute -left-[2.55rem] flex h-8 w-8 items-center justify-center rounded-full border-2 border-rust bg-parchment font-mono text-xs font-medium text-rust">
+          <span class="absolute -left-[3.1rem] flex h-8 w-8 items-center justify-center rounded-full border-2 border-rust bg-parchment font-mono text-xs font-medium text-rust">
             {entry.day}
           </span>
           <p class="eyebrow mb-1">Dia {entry.day}</p>

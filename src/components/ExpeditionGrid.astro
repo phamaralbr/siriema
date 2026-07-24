@@ -8,10 +8,10 @@ interface Props {
 }
 const { expeditions } = Astro.props;
 
-// Expedições acontecem uma única vez: some do catálogo assim que a data passa
-// (mas sem data definida continua aparecendo normalmente).
-const active = expeditions.filter((e) => !e.data.date || !isPast(e.data.date));
-const sorted = [...active].sort((a, b) => a.data.order - b.data.order);
+// Expedições acontecem uma única vez: some do catálogo assim que a data
+// passa. As que ainda vão acontecer aparecem ordenadas pela mais próxima.
+const active = expeditions.filter((e) => !isPast(e.data.date));
+const sorted = [...active].sort((a, b) => a.data.date.getTime() - b.data.date.getTime());
 ---
 
 <section id="expedicoes" class="mx-auto max-w-content px-5 py-20 sm:px-8">
@@ -19,7 +19,7 @@ const sorted = [...active].sort((a, b) => a.data.order - b.data.order);
     <div>
       <p class="eyebrow mb-3">Nosso catálogo</p>
       <h2 class="font-display text-3xl font-semibold text-ink sm:text-4xl">
-        Expedições disponíveis
+        Próximas expedições
       </h2>
     </div>
     <p class="max-w-sm text-sm text-stone">

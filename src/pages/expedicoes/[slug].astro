@@ -7,7 +7,7 @@ import InclusionsList from '../../components/InclusionsList.astro';
 import Footer from '../../components/Footer.astro';
 import WhatsAppFloat from '../../components/WhatsAppFloat.astro';
 import { whatsappLink } from '../../config/site';
-import { formatDateLong } from '../../lib/dates';
+import { formatDateRangeLong } from '../../lib/dates';
 import { withBase } from '../../lib/url';
 
 export async function getStaticPaths() {
@@ -40,8 +40,19 @@ const ctaLink = whatsappLink(
   <Header />
 
   <section class="relative">
-    <div class="aspect-[16/9] w-full overflow-hidden bg-sand sm:aspect-[21/9]">
-      <img src={coverSrc} alt={e.coverAlt} class="h-full w-full object-cover" />
+    <div class="relative aspect-[16/9] w-full overflow-hidden bg-sand sm:aspect-[21/9]">
+      <img
+        src={coverSrc}
+        alt={e.title}
+        class={`h-full w-full object-cover ${e.esgotado ? 'grayscale' : ''}`}
+      />
+      {e.esgotado && (
+        <div class="absolute inset-0 flex items-center justify-center bg-ink/35">
+          <span class="rounded-full bg-ink px-5 py-2 font-mono text-sm font-semibold uppercase tracking-wider text-parchment">
+            Esgotado
+          </span>
+        </div>
+      )}
     </div>
     <div class="contour-divider"></div>
   </section>
@@ -51,7 +62,7 @@ const ctaLink = whatsappLink(
 
     <div class="mt-6 flex flex-col gap-8 lg:flex-row lg:gap-16">
       <div class="flex-1">
-        <p class="eyebrow mb-2">{e.location} · {e.difficulty}</p>
+        <p class="eyebrow mb-2">{e.location}{e.difficulty && ` · ${e.difficulty}`}</p>
         <h1 class="font-display text-3xl font-semibold text-ink sm:text-4xl">{e.title}</h1>
         <p class="mt-3 max-w-xl text-base text-stone">{e.subtitle}</p>
 
@@ -94,26 +105,34 @@ const ctaLink = whatsappLink(
               <dd class="font-medium text-ink">{e.groupSize}</dd>
             </div>
           )}
-          <div class="flex justify-between">
-            <dt class="text-stone">Dificuldade</dt>
-            <dd class="font-medium text-ink">{e.difficulty}</dd>
-          </div>
+          {e.difficulty && (
+            <div class="flex justify-between">
+              <dt class="text-stone">Dificuldade</dt>
+              <dd class="font-medium text-ink">{e.difficulty}</dd>
+            </div>
+          )}
         </dl>
 
-        {e.date && (
-          <div class="mt-5 border-t border-sand pt-4">
-            <p class="font-mono text-xs uppercase tracking-wide text-stone">Data da expedição</p>
-            <p class="mt-1 text-sm font-medium text-ink">{formatDateLong(e.date)}</p>
-          </div>
-        )}
+        <div class="mt-5 border-t border-sand pt-4">
+          <p class="font-mono text-xs uppercase tracking-wide text-stone">Data da expedição</p>
+          <p class="mt-1 text-sm font-medium text-ink">{formatDateRangeLong(e.date, e.endDate)}</p>
+        </div>
 
-        <a href={ctaLink} target="_blank" rel="noopener noreferrer" class="btn-whatsapp mt-6 w-full justify-center">
-          Reservar pelo WhatsApp
-        </a>
+        {e.esgotado ? (
+          <p class="btn-whatsapp mt-6 w-full cursor-default justify-center !bg-stone/15 !text-stone hover:!bg-stone/15 hover:!translate-y-0">
+            Esgotado
+          </p>
+        ) : (
+          <a href={ctaLink} target="_blank" rel="noopener noreferrer" class="btn-whatsapp mt-6 w-full justify-center">
+            Reservar pelo WhatsApp
+          </a>
+        )}
       </aside>
     </div>
   </section>
 
   <Footer />
-  <WhatsAppFloat message={e.whatsappMessage ?? `Olá! Tenho interesse na expedição "${e.title}".`} />
+  {!e.esgotado && (
+    <WhatsAppFloat message={e.whatsappMessage ?? `Olá! Tenho interesse na expedição "${e.title}".`} />
+  )}
 </Layout>

@@ -1,7 +1,7 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import { whatsappLink } from '../config/site';
-import { formatDateShort } from '../lib/dates';
+import { formatDateRangeShort } from '../lib/dates';
 import { withBase } from '../lib/url';
 
 interface Props {
@@ -35,24 +35,42 @@ const cardWhatsapp = whatsappLink(
     <div class="relative aspect-[4/3] overflow-hidden bg-sand">
       <img
         src={coverSrc}
-        alt={e.coverAlt}
+        alt={e.title}
         loading="lazy"
-        class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+        class={`h-full w-full object-cover transition-transform duration-500 ${
+          e.esgotado ? 'grayscale' : 'group-hover:scale-105'
+        }`}
       />
-      {e.featured && (
+      {e.esgotado && (
+        <div class="absolute inset-0 flex items-center justify-center bg-ink/35">
+          <span class="rounded-full bg-ink px-4 py-1.5 font-mono text-xs font-semibold uppercase tracking-wider text-parchment">
+            Esgotado
+          </span>
+        </div>
+      )}
+      {e.featured && !e.esgotado && (
         <span class="absolute left-3 top-3 rounded-full bg-rust px-3 py-1 font-mono text-[11px] uppercase tracking-wide text-parchment">
           Destaque
         </span>
       )}
+      <div class="absolute bottom-3 right-3 flex items-center gap-1.5 rounded-lg bg-ink/90 px-3 py-1.5 font-mono text-xs font-semibold tracking-wide text-parchment shadow-sm backdrop-blur-sm">
+        <svg viewBox="0 0 20 20" fill="none" class="h-3.5 w-3.5 flex-shrink-0" aria-hidden="true">
+          <rect x="2.5" y="4" width="15" height="13" rx="2" stroke="currentColor" stroke-width="1.4" />
+          <path d="M2.5 8h15M6.5 2v4M13.5 2v4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+        </svg>
+        {formatDateRangeShort(e.date, e.endDate)}
+      </div>
     </div>
   </a>
 
   <div class="flex flex-1 flex-col p-5">
     <div class="flex items-center justify-between gap-2">
       <span class="font-mono text-xs uppercase tracking-wide text-stone">{e.location}</span>
-      <span class={`rounded-full px-2.5 py-0.5 font-mono text-[11px] ${difficultyColor[e.difficulty]}`}>
-        {e.difficulty}
-      </span>
+      {e.difficulty && (
+        <span class={`rounded-full px-2.5 py-0.5 font-mono text-[11px] ${difficultyColor[e.difficulty]}`}>
+          {e.difficulty}
+        </span>
+      )}
     </div>
 
     <h3 class="mt-2 font-display text-xl font-semibold leading-snug text-ink">
@@ -65,11 +83,6 @@ const cardWhatsapp = whatsappLink(
     <div class="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1.5 font-mono text-xs text-stone">
       <span>{e.durationDays} {e.durationDays === 1 ? 'dia' : 'dias'}</span>
       {e.groupSize && <span>· {e.groupSize}</span>}
-      {e.date && (
-        <span class="inline-flex items-center gap-1 rounded-full bg-moss/15 px-2.5 py-0.5 text-moss">
-          Saída: {formatDateShort(e.date)}
-        </span>
-      )}
     </div>
 
     <div class="mt-5 flex items-center justify-between border-t border-sand pt-4">
@@ -77,14 +90,20 @@ const cardWhatsapp = whatsappLink(
         <p class="font-mono text-[11px] uppercase tracking-wide text-stone">a partir de</p>
         <p class="font-display text-lg font-semibold text-ink">{priceFormatted}</p>
       </div>
-      <a
-        href={cardWhatsapp}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="btn-whatsapp !px-4 !py-2 text-sm"
-      >
-        Reservar
-      </a>
+      {e.esgotado ? (
+        <span class="rounded-full bg-stone/15 px-4 py-2 font-mono text-xs uppercase tracking-wide text-stone">
+          Esgotado
+        </span>
+      ) : (
+        <a
+          href={cardWhatsapp}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-whatsapp !px-4 !py-2 text-sm"
+        >
+          Reservar
+        </a>
+      )}
     </div>
   </div>
 </article>

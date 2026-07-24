@@ -11,6 +11,12 @@ backend:
 # publicar direto.
 publish_mode: editorial_workflow
 
+# Sem isso, o Sveltia grava campos opcionais deixados em branco como ''
+# (string vazia) em vez de simplesmente não escrevê-los — o que quebra a
+# validação de schema do Astro (ex: '' não é uma data nem um enum válido).
+output:
+    omit_empty_optional_fields: true
+
 media_folder: "public/images/expeditions"
 public_folder: "/images/expeditions"
 
@@ -26,7 +32,7 @@ collections:
       extension: "md"
       identifier_field: title
       summary: "{{title}} — {{location}}"
-      sortable_fields: ["order", "priceFrom", "durationDays"]
+      sortable_fields: ["date", "priceFrom", "durationDays"]
       fields:
           - { label: "Título", name: "title", widget: "string" }
           - {
@@ -34,45 +40,52 @@ collections:
                 name: "subtitle",
                 widget: "string",
             }
-          - {
-                label: "Destaque na home?",
-                name: "featured",
-                widget: "boolean",
-                default: false,
-            }
-          - {
-                label: "Ordem de exibição",
-                name: "order",
-                widget: "number",
-                default: 99,
-                hint: "Menor número aparece primeiro",
-            }
 
           - { label: "Imagem de capa", name: "cover", widget: "image" }
-          - {
-                label: "Texto alternativo da capa",
-                name: "coverAlt",
-                widget: "string",
-            }
-          - {
-                label: "Galeria de fotos",
-                name: "gallery",
-                widget: "list",
-                field: { label: "Foto", name: "photo", widget: "image" },
-                required: false,
-            }
 
           - {
                 label: "Localização",
                 name: "location",
                 widget: "string",
-                hint: "Ex: Rio de Janeiro, RJ",
+                hint: "Ex: Brasília, DF",
             }
           - { label: "Duração (dias)", name: "durationDays", widget: "number" }
+
+          - label: "Data de início"
+            name: "date"
+            widget: "datetime"
+            type: "date"
+
+          - label: "Data de finalização"
+            name: "endDate"
+            widget: "datetime"
+            type: "date"
+            required: false
+
+          - {
+                label: "Preço a partir de (R$)",
+                name: "priceFrom",
+                widget: "number",
+            }
+
+          - label: "Esgotado?"
+            name: "esgotado"
+            widget: "boolean"
+            default: false
+
+          - {
+                label: "Destaque na home?",
+                name: "featured",
+                widget: "boolean",
+                default: false,
+                required: false,
+            }
+
           - label: "Dificuldade"
             name: "difficulty"
             widget: "select"
             options: ["Leve", "Moderada", "Intensa"]
+            required: false
           - {
                 label: "Tamanho do grupo",
                 name: "groupSize",
@@ -82,20 +95,17 @@ collections:
             }
 
           - {
-                label: "Preço a partir de (R$)",
-                name: "priceFrom",
-                widget: "number",
-            }
-          - {
                 label: "Observação do preço",
                 name: "priceNote",
                 widget: "string",
                 default: "por pessoa",
+                required: false,
             }
 
           - label: "Destaques (tags curtas)"
             name: "highlights"
             widget: "list"
+            hint: "Atrativos, pontos turísticos, atividades, diferenciais..."
             required: false
             field: { label: "Destaque", name: "item", widget: "string" }
 
@@ -121,18 +131,11 @@ collections:
             required: false
             field: { label: "Item", name: "item", widget: "string" }
 
-          - label: "Data da expedição"
-            name: "date"
-            widget: "datetime"
-            type: "date"
-            required: false
-            hint: "Cada expedição acontece uma vez. Some do catálogo sozinha assim que a data passar."
-
           - label: "Mensagem personalizada do WhatsApp"
             name: "whatsappMessage"
             widget: "text"
+            default: "Olá! Vi o catálogo de expedições e gostaria de mais informações."
             required: false
-            hint: "Se vazio, usa a mensagem padrão do site"
 
           - label: "Descrição completa"
             name: "body"

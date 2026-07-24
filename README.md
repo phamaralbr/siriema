@@ -1,129 +1,66 @@
-# Catálogo de Expedições
+# Siriema — Expedition Catalog
 
-Site estático em Astro para catálogo de expedições/trilhas, com edição de conteúdo
-via Sveltia CMS e hospedagem gratuita no GitHub Pages. Sem backend, sem banco de dados.
+A static catalog site for a travel agency. No backend, no database: Astro generates the pages, Sveltia CMS edits the content, GitHub Pages hosts it for free.
 
-## Estrutura
+## Stack
+
+- **Astro** — static site generator
+- **Sveltia CMS** — git-based content editor, lives at `/admin`
+- **Tailwind CSS** — styling
+- **GitHub Actions + GitHub Pages** — build and hosting
+
+## Project structure
 
 ```
 src/
-  components/     -> Header, Hero, ExpeditionCard, ItineraryTimeline, etc.
-  config/site.ts   -> nome da agência, número do WhatsApp, redes sociais
+  components/       Header, Footer, expedition card, WhatsApp CTA, itinerary timeline, etc.
+  config/site.ts     agency name, WhatsApp number, social links — edit here
   content/
-    config.ts      -> schema de cada expedição (validação automática)
-    expeditions/   -> um arquivo .md por expedição (editável pelo Sveltia)
-  pages/
-    index.astro          -> home com o catálogo
-    expedicoes/[slug].astro -> página de detalhe de cada expedição
+    config.ts         schema for expeditions (required/optional fields)
+    expeditions/       one .md file per expedition
+  lib/                date formatting, base-path helper
+  pages/              home page + expedition detail pages
 public/
-  admin/           -> painel do Sveltia CMS (config.yml + index.html)
-  images/          -> fotos de capa das expedições
+  admin/              Sveltia CMS panel and config
+  images/              expedition photos
+scripts/
+  optimize-images.mjs  auto-resizes and compresses images before every build
 ```
 
-## 1. Rodar localmente
+## Running locally
 
 ```bash
 npm install
 npm run dev
 ```
 
-Abra `http://localhost:4321`.
+## Adding an expedition
 
-## 2. Editar o número de WhatsApp e dados da agência
+Either through `/admin` once deployed, or by copying an existing file in `src/content/expeditions/`.
 
-Edite `src/config/site.ts`:
+Required: `title`, `subtitle`, `cover`, `location`, `durationDays`, `date`, `priceFrom`. Everything else is optional.
 
-```ts
-whatsappNumber: '5561999999999', // DDI + DDD + número, só dígitos
-```
+A few fields worth knowing:
 
-## 3. Adicionar/editar expedições sem o painel (direto no código)
+- **`date`** — each expedition happens once. It drops off the home page automatically once this date passes; no manual cleanup needed.
+- **`endDate`** — optional. Set it to show a range ("11 to 14 September 2026") instead of a single date.
+- **`esgotado`** — set to `true` when sold out. Grays out the cover image, adds a label, removes the booking buttons. The expedition stays visible, just not bookable.
 
-Cada expedição é um arquivo `.md` em `src/content/expeditions/`. Copie um dos
-três exemplos (`serra-dos-orgaos.md`) e ajuste os campos. O Astro valida
-automaticamente o formato pelo schema em `src/content/config.ts` — se faltar
-um campo obrigatório, o build falha com um erro claro.
+## Deploying
 
-## 4. Publicar no GitHub Pages
+Push to `main` — GitHub Actions builds and publishes automatically. Before the first deploy:
 
-1. Crie um repositório no GitHub e suba este projeto:
-   ```bash
-   git init
-   git add .
-   git commit -m "primeira versão do catálogo"
-   git branch -M main
-   git remote add origin https://github.com/SEU-USUARIO/SEU-REPOSITORIO.git
-   git push -u origin main
-   ```
-2. No GitHub: **Settings → Pages → Build and deployment → Source → GitHub Actions**.
-3. Edite `astro.config.mjs` e ajuste:
-   ```js
-   site: 'https://SEU-USUARIO.github.io',
-   base: '/SEU-REPOSITORIO',
-   ```
-   Se o repositório se chamar exatamente `SEU-USUARIO.github.io`, remova a
-   linha `base` inteiramente.
-4. Faça commit e push — o workflow em `.github/workflows/deploy.yml` builda e
-   publica automaticamente a cada push na `main`. O link fica disponível em
-   **Settings → Pages** após alguns minutos.
+1. In `astro.config.mjs`, set `site` to your GitHub Pages URL and `base` to your repo name (skip `base` if the repo is named `username.github.io`).
+2. In `public/admin/config.yml`, set `repo` to `username/reponame`.
 
-## 5. Como acessar o `/admin` (painel do Sveltia CMS)
+## CMS access
 
-Depois que o site estiver publicado no GitHub Pages, o painel fica em:
+Open `/admin/index.html`, click **Sign In with Token**, follow the link to generate a GitHub personal access token, paste it back. No OAuth server to run.
 
-```
-https://SEU-USUARIO.github.io/SEU-REPOSITORIO/admin/
-```
+## Images
 
-### Opção A — Login com token pessoal (recomendado para você/equipe pequena)
+Photos get auto-resized and compressed before every build (`scripts/optimize-images.mjs`, wired up as `prebuild`). Upload full-size camera photos without worrying about it — the build shrinks anything oversized before it ships.
 
-Não precisa criar OAuth App nem servidor nenhum:
+## Editing agency details
 
-1. Abra a URL do `/admin` acima.
-2. Clique em **"Sign In with Token"**.
-3. O próprio Sveltia mostra um link para gerar o token no GitHub, já com os
-   escopos certos pré-selecionados (acesso de leitura/escrita ao repositório).
-   Gere o token, copie e cole de volta na janela do Sveltia.
-4. Pronto — você já pode criar, editar e apagar expedições visualmente.
-
-Guarde esse token com cuidado (é como uma senha). Se quiser revogar o acesso
-depois, é só apagar o token em GitHub → Settings → Developer settings →
-Personal access tokens.
-
-### Opção B — Login "Continue with GitHub" (melhor para várias pessoas não-técnicas editando)
-
-Essa opção usa o fluxo OAuth tradicional e exige um pequeno servidor
-intermediário (o navegador sozinho não pode guardar o "client secret" do
-GitHub com segurança). Só vale a pena se você tiver mais de uma pessoa
-editando o conteúdo e quiser evitar que cada uma gerencie seu próprio token.
-
-1. Crie um OAuth App em GitHub → Settings → Developer settings → OAuth Apps.
-   - Callback URL: `https://SEU-AUTH-WORKER.workers.dev/callback`
-2. Publique o worker gratuito `sveltia-cms-auth`
-   (https://github.com/sveltia/sveltia-cms-auth) na Cloudflare, com as
-   variáveis `GITHUB_CLIENT_ID` e `GITHUB_CLIENT_SECRET` do passo anterior.
-3. Adicione ao `public/admin/config.yml`, dentro de `backend:`:
-   ```yaml
-   base_url: https://SEU-AUTH-WORKER.workers.dev
-   auth_endpoint: auth
-   ```
-4. Volte ao `/admin`, agora aparece "Continue with GitHub".
-
-> Observação: `publish_mode: editorial_workflow` está ativado no
-> `config.yml`, o que faz cada edição virar um Pull Request para revisão antes
-> de ir ao ar. Se preferir que as edições publiquem direto, remova essa linha.
-
-## 6. Design
-
-A identidade visual segue um conceito de "diário de expedição": paleta
-verde-mata/pergaminho/ferrugem, tipografia serifada (Fraunces) para títulos e
-monoespaçada (JetBrains Mono) para dados como duração/dificuldade/preço, e um
-motivo de curvas de nível (linhas topográficas) como elemento assinatura no
-hero e nos divisores de seção. Tudo isso vive em `tailwind.config.mjs` e
-`src/styles/global.css` — mude as cores lá para ajustar a marca.
-
-## Substituir as imagens de exemplo
-
-As imagens em `public/images/expeditions/*.png` são placeholders sólidos só
-para o layout funcionar. Suba fotos reais com o mesmo nome (ou ajuste o campo
-`cover` de cada expedição) — pelo painel `/admin` ou direto na pasta.
+WhatsApp number, agency name, tagline, social links — all in `src/config/site.ts`.

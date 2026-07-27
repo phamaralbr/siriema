@@ -1,7 +1,7 @@
 ---
 title: Travessia Serra dos Órgãos
 subtitle: 3 dias cruzando um dos parques mais icônicos do Brasil
-cover: /images/expeditions/serra-dos-orgaos.jpg
+cover: "./cover.jpg"
 location: Rio de Janeiro, RJ
 durationDays: 3
 date: 2026-11-30

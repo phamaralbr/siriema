@@ -1,7 +1,7 @@
 ---
 title: Vale da Lua e Cânions da Chapada
 subtitle: 2 dias entre formações rochosas milenares e um pôr do sol inesquecível
-cover: /images/expeditions/vale-da-lua.jpg
+cover: "./cover.jpg"
 location: Chapada dos Veadeiros, GO
 durationDays: 2
 date: 2026-09-12

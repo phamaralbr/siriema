@@ -1,5 +1,6 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
+import { Image, getImage } from 'astro:assets';
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import ItineraryTimeline from '../../components/ItineraryTimeline.astro';
@@ -13,14 +14,14 @@ import { withBase } from '../../lib/url';
 export async function getStaticPaths() {
   const expeditions = await getCollection('expeditions');
   return expeditions.map((expedition) => ({
-    params: { slug: expedition.slug },
+    params: { slug: expedition.id },
     props: { expedition },
   }));
 }
 
 const { expedition } = Astro.props;
 const e = expedition.data;
-const { Content } = await expedition.render();
+const { Content } = await render(expedition);
 
 const priceFormatted = new Intl.NumberFormat('pt-BR', {
   style: 'currency',
@@ -28,22 +29,31 @@ const priceFormatted = new Intl.NumberFormat('pt-BR', {
   maximumFractionDigits: 0,
 }).format(e.priceFrom);
 
-const coverSrc = withBase(e.cover);
 const backHref = `${withBase('/')}#expedicoes`;
+
+// Gera uma versão 1200x630 da própria capa pra usar como preview ao
+// compartilhar o link da expedição (em vez da imagem genérica do site).
+const ogImage = await getImage({ src: e.cover, width: 1200, height: 630, quality: 75 });
+const ogImageUrl = new URL(ogImage.src, Astro.site).toString();
 
 const ctaLink = whatsappLink(
   e.whatsappMessage ?? `Olá! Tenho interesse na expedição "${e.title}". Pode me passar mais detalhes?`
 );
 ---
 
-<Layout title={e.title} description={e.subtitle} image={coverSrc}>
+<Layout title={e.title} description={e.subtitle} image={ogImageUrl}>
   <Header />
 
   <section class="relative">
     <div class="relative aspect-[16/9] w-full overflow-hidden bg-sand sm:aspect-[21/9]">
-      <img
-        src={coverSrc}
+      <Image
+        src={e.cover}
         alt={e.title}
+        width={1400}
+        widths={[640, 1080, 1400]}
+        sizes="100vw"
+        quality={75}
+        layout="full-width"
         class={`h-full w-full object-cover ${e.esgotado ? 'grayscale' : ''}`}
       />
       {e.esgotado && (

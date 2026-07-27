@@ -19,14 +19,11 @@ src/
   config/site.ts     agency name, WhatsApp number, social links — edit here
   content/
     config.ts         schema for expeditions (required/optional fields)
-    expeditions/       one .md file per expedition
+    expeditions/       one folder per expedition (index.md + cover.jpg)
   lib/                date formatting, base-path helper
   pages/              home page + expedition detail pages
 public/
   admin/              Sveltia CMS panel and config
-  images/              expedition photos
-scripts/
-  optimize-images.mjs  auto-resizes and compresses images before every build
 ```
 
 ## Running locally
@@ -38,7 +35,7 @@ npm run dev
 
 ## Adding an expedition
 
-Either through `/admin` once deployed, or by copying an existing file in `src/content/expeditions/`.
+Either through `/admin` once deployed, or by copying an existing folder in `src/content/expeditions/` (each expedition is a folder with an `index.md` and a `cover.jpg` side by side).
 
 Required: `title`, `subtitle`, `cover`, `location`, `durationDays`, `date`, `priceFrom`. Everything else is optional.
 
@@ -61,7 +58,9 @@ Open `/admin/index.html`, click **Sign In with Token**, follow the link to gener
 
 ## Images
 
-Photos get auto-resized and compressed before every build (`scripts/optimize-images.mjs`, wired up as `prebuild`). Upload full-size camera photos without worrying about it — the build shrinks anything oversized before it ships.
+Each expedition's cover photo lives next to its content file (`src/content/expeditions/<slug>/cover.jpg`), not in `public/`. Astro's built-in image pipeline (`astro:assets`) picks it up automatically at build time: resizes it to several widths, converts it to WebP, and generates the `srcset`/`sizes` so phones get a smaller file than desktops.
+
+Upload full-size camera photos without worrying about it — nothing needs pre-compressing by hand. The CMS (`/admin`) is already configured to save new uploads into the same folder as the expedition being edited, which is what makes this work.
 
 ## Editing agency details
 

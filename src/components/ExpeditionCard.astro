@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import { Image } from 'astro:assets';
 import { whatsappLink } from '../config/site';
 import { formatDateRangeShort } from '../lib/dates';
 import { withBase } from '../lib/url';
@@ -22,8 +23,7 @@ const priceFormatted = new Intl.NumberFormat('pt-BR', {
   maximumFractionDigits: 0,
 }).format(e.priceFrom);
 
-const detailHref = withBase(`/expedicoes/${expedition.slug}/`);
-const coverSrc = withBase(e.cover);
+const detailHref = withBase(`/expedicoes/${expedition.id}/`);
 
 const cardWhatsapp = whatsappLink(
   e.whatsappMessage ?? `Olá! Tenho interesse na expedição "${e.title}". Pode me passar mais detalhes?`
@@ -33,9 +33,13 @@ const cardWhatsapp = whatsappLink(
 <article class="group flex flex-col overflow-hidden rounded-2xl border border-sand bg-white/60 shadow-sm transition-shadow hover:shadow-md">
   <a href={detailHref} class="block overflow-hidden">
     <div class="relative aspect-[4/3] overflow-hidden bg-sand">
-      <img
-        src={coverSrc}
+      <Image
+        src={e.cover}
         alt={e.title}
+        width={800}
+        widths={[400, 800]}
+        sizes="(min-width: 1024px) 360px, (min-width: 640px) 45vw, 100vw"
+        quality={75}
         loading="lazy"
         class={`h-full w-full object-cover transition-transform duration-500 ${
           e.esgotado ? 'grayscale' : 'group-hover:scale-105'

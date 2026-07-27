@@ -17,14 +17,19 @@ publish_mode: editorial_workflow
 output:
     omit_empty_optional_fields: true
 
-media_folder: "public/images/expeditions"
-public_folder: "/images/expeditions"
-
 collections:
     - name: "expeditions"
       label: "Expedições"
       label_singular: "Expedição"
       folder: "src/content/expeditions"
+      # Cada expedição vira uma pasta própria (ex: src/content/expeditions/
+      # vale-da-lua-canions/index.md) — necessário pro Astro conseguir
+      # otimizar a imagem de capa, que fica junto do arquivo.
+      path: "{{slug}}/index"
+      # Vazio = a imagem enviada no campo "Imagem de capa" abaixo vai pra
+      # dentro da MESMA pasta da expedição, não pra uma pasta central.
+      media_folder: ""
+      public_folder: ""
       create: true
       delete: true
       slug: "{{slug}}"
@@ -41,7 +46,12 @@ collections:
                 widget: "string",
             }
 
-          - { label: "Imagem de capa", name: "cover", widget: "image" }
+          - {
+                label: "Imagem de capa",
+                name: "cover",
+                widget: "image",
+                hint: "Pode subir a foto direto da câmera/celular — o site redimensiona e comprime automaticamente no build.",
+            }
 
           - {
                 label: "Localização",

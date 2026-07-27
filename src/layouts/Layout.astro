@@ -17,8 +17,10 @@ const {
 
 const pageTitle = title === SITE.name ? title : `${title} · ${SITE.name}`;
 // og:image precisa ser uma URL absoluta (com domínio) pra funcionar em
-// previews do WhatsApp/Facebook/etc.
-const ogImageUrl = new URL(withBase(image), Astro.site).toString();
+// previews do WhatsApp/Facebook/etc. Se `image` já vier absoluta (ex: uma
+// página de expedição que gerou a própria imagem via getImage()), usa como
+// está; senão, monta a partir do caminho relativo padrão em /public.
+const ogImageUrl = image.startsWith('http') ? image : new URL(withBase(image), Astro.site).toString();
 ---
 
 <!doctype html>

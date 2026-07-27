@@ -1,7 +1,7 @@
 ---
 title: Expedição Rio Negro
 subtitle: 5 dias de imersão na floresta amazônica, entre canoas e trilhas
-cover: /images/expeditions/amazonia.jpg
+cover: "./cover.jpg"
 location: Manaus, AM
 durationDays: 5
 date: 2026-08-10
@@ -42,7 +42,6 @@ excludes:
     - Bebidas alcoólicas
     - Itens de uso pessoal
 whatsappMessage: Olá! Tenho interesse na Expedição Rio Negro. Pode me passar mais detalhes e próximas datas?
-coverAlt: Rio na floresta amazônica ao entardecer
 order: 5
 ---
 

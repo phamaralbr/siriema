@@ -11,6 +11,9 @@ backend:
 # publicar direto.
 publish_mode: editorial_workflow
 
+media_folder: /
+public_folder: /
+
 # Sem isso, o Sveltia grava campos opcionais deixados em branco como ''
 # (string vazia) em vez de simplesmente não escrevê-los — o que quebra a
 # validação de schema do Astro (ex: '' não é uma data nem um enum válido).

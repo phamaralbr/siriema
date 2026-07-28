@@ -1,7 +1,7 @@
 ---
-title: Circuito de Cachoeiras de São Jorge TESTE
+title: Circuito de Cachoeiras de São Jorge
 subtitle: 1 dia leve entre poços naturais e cachoeiras na vila mais boêmia do cerrado
-cover: TailgatePad-Loaded3bikes_600x.png
+cover: cover.jpg
 location: São Jorge, Chapada dos Veadeiros, GO
 durationDays: 1
 date: 2026-08-22

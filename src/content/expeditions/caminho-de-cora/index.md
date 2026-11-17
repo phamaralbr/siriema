@@ -17,20 +17,20 @@ highlights:
   - "Passaporte do peregrino"
 itinerary:
   - day: 1
-    title: "Brasília a Corumbá de Goiás"
-    description: "Transporte em van executiva saindo de Brasília com destino a Corumbá de Goiás. Acomodação na pousada, checagem das bicicletas e preparação para o início da cicloviagem."
+    title: "Brasília a Corumbá"
+    description: "Transporte de van executiva de Brasília a Corumbá."
   - day: 2
     title: "Corumbá a Caxambu"
-    description: "Início oficial do pedal pelo Caminho de Cora Coralina, cruzando estradas de terra batida, fazendas históricas e a natureza preservada do Cerrado até o povoado de Caxambu."
+    description: "Pedal de Corumbá a Caxambu."
   - day: 3
     title: "Caxambu a Jaraguá"
-    description: "Dia de pedal entre vales e serras rumo à histórica Jaraguá, famosa por seu casario colonial preservado e patrimônio cultural."
+    description: "Pedal de Caxambu a Jaraguá."
   - day: 4
     title: "Jaraguá a São Benedito"
-    description: "Etapa rural pelas trilhas e estradas de chão do interior goiano até a acolhedora comunidade de São Benedito, vivenciando a hospitalidade local."
+    description: "Pedal de Jaraguá a São Benedito."
   - day: 5
-    title: "São Benedito a Cidade de Goiás e Retorno"
-    description: "Último dia de pedalada com chegada triunfal à histórica Cidade de Goiás (Patrimônio Mundial da UNESCO), terra de Cora Coralina. Almoço de celebração e retorno de van executiva para Brasília."
+    title: "São Benedito a Cidade de Goiás & Retorno"
+    description: "Pedal de São Benedito a Cidade de Goiás e retorno de van para Brasília."
 includes:
   - "Van executiva para transporte de Brasília para Corumbá e de Cidade de Goiás a Brasília"
   - "4 pernoites em pousada, quartos duplos"

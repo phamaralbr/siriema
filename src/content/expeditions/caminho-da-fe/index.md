@@ -18,22 +18,22 @@ highlights:
 itinerary:
   - day: 1
     title: "Brasília a Águas da Prata"
-    description: "Transporte em van executiva saindo de Brasília com destino a Águas da Prata (SP), ponto de partida tradicional do Caminho da Fé. Acomodação na pousada, checagem das bikes e alinhamento do grupo."
+    description: "Transporte em van executiva de Brasília a Águas da Prata."
   - day: 2
     title: "Águas da Prata a Inconfidentes"
-    description: "85 km com 2.000m de altimetria. Primeira etapa desafiadora cruzando a divisa de SP e MG por estradas de terra entre cafezais e colinas."
+    description: "Pedal de Águas da Prata a Inconfidentes. 85 km com 2.000m de altimetria."
   - day: 3
     title: "Inconfidentes a Estiva"
-    description: "65 km com 2.000m de altimetria. Percurso clássico pelas serras mineiras com belos visuais panorâmicos e paradas em vilarejos acolhedores."
+    description: "Pedal de Inconfidentes a Estiva. 65 km com 2.000m de altimetria."
   - day: 4
     title: "Estiva a Luminosa"
-    description: "65 km com 2.000m de altimetria. Pedal rumo ao sopé da Mantiqueira por estradas rurais até o emblemático vilarejo da Luminosa."
+    description: "Pedal de Estiva a Luminosa. 65 km com 2.000m de altimetria."
   - day: 5
     title: "Luminosa a Campos do Jordão"
-    description: "35 km com 1.500m de altimetria. A lendária subida da Serra da Luminosa, o trecho mais íngreme e desafiador da rota, alcançando o alto de Campos do Jordão."
+    description: "Pedal de Luminosa a Campos do Jordão. 35 km com 1.500m de altimetria."
   - day: 6
-    title: "Campos do Jordão a Aparecida e Retorno"
-    description: "60 km com 800m de altimetria. Descida panorâmica da Mantiqueira rumo ao Santuário Nacional de Aparecida, celebração da peregrinação e retorno de van para Brasília."
+    title: "Campos do Jordão a Aparecida & Retorno"
+    description: "Pedal de Campos do Jordão a Aparecida (60 km com 800m de altimetria) e retorno de van para Brasília."
 includes:
   - "Van executiva para transporte de Brasília a Águas da Prata e de Aparecida a Brasília"
   - "5 pernoites em pousada, quartos duplos"

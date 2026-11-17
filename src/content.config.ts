@@ -33,7 +33,7 @@ const expeditions = defineCollection({
       // Data de início. Cada expedição acontece uma vez; o catálogo é
       // ordenado por esta data (a mais próxima aparece primeiro).
       date: z.coerce.date(),
-      priceFrom: z.number(),
+      priceFrom: z.preprocess(blankToUndefined, z.number().optional()),
 
       // Tudo abaixo é opcional — preencha só o que fizer sentido.
       featured: z.boolean().default(false),

@@ -6,13 +6,15 @@ import Hero from '../components/Hero.astro';
 import ExpeditionGrid from '../components/ExpeditionGrid.astro';
 import Footer from '../components/Footer.astro';
 import WhatsAppFloat from '../components/WhatsAppFloat.astro';
+import { isPast } from '../lib/dates';
 
 const expeditions = await getCollection('expeditions');
+const activeExpeditions = expeditions.filter((e) => !isPast(e.data.date));
 ---
 
 <Layout>
   <Header />
-  <Hero expeditionCount={expeditions.length} />
+  <Hero expeditionCount={activeExpeditions.length} />
   <ExpeditionGrid expeditions={expeditions} />
   <Footer />
   <WhatsAppFloat />

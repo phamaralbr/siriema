@@ -79,6 +79,7 @@ collections:
                 label: "Preço a partir de (R$)",
                 name: "priceFrom",
                 widget: "number",
+                required: false,
             }
 
           - label: "Esgotado?"

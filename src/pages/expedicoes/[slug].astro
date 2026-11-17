@@ -23,11 +23,13 @@ const { expedition } = Astro.props;
 const e = expedition.data;
 const { Content } = await render(expedition);
 
-const priceFormatted = new Intl.NumberFormat('pt-BR', {
-  style: 'currency',
-  currency: 'BRL',
-  maximumFractionDigits: 0,
-}).format(e.priceFrom);
+const priceFormatted = e.priceFrom
+  ? new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
+      maximumFractionDigits: 0,
+    }).format(e.priceFrom)
+  : null;
 
 const backHref = `${withBase('/')}#expedicoes`;
 
@@ -100,9 +102,19 @@ const ctaLink = whatsappLink(
       </div>
 
       <aside class="h-fit rounded-2xl border border-sand bg-white/70 p-6 lg:sticky lg:top-24 lg:w-80">
-        <p class="font-mono text-xs uppercase tracking-wide text-stone">a partir de</p>
-        <p class="font-display text-3xl font-semibold text-ink">{priceFormatted}</p>
-        <p class="text-sm text-stone">{e.priceNote}</p>
+        {priceFormatted ? (
+          <>
+            <p class="font-mono text-xs uppercase tracking-wide text-stone">a partir de</p>
+            <p class="font-display text-3xl font-semibold text-ink">{priceFormatted}</p>
+            {e.priceNote && <p class="text-sm text-stone">{e.priceNote}</p>}
+          </>
+        ) : (
+          <>
+            <p class="font-mono text-xs uppercase tracking-wide text-stone">investimento</p>
+            <p class="font-display text-2xl font-semibold text-ink">Sob consulta</p>
+            <p class="text-sm text-stone">{e.priceNote || 'Consulte valores e condições no WhatsApp'}</p>
+          </>
+        )}
 
         <dl class="mt-5 space-y-2 border-t border-sand pt-4 text-sm">
           <div class="flex justify-between">
@@ -134,7 +146,7 @@ const ctaLink = whatsappLink(
           </p>
         ) : (
           <a href={ctaLink} target="_blank" rel="noopener noreferrer" class="btn-whatsapp mt-6 w-full justify-center">
-            Reservar pelo WhatsApp
+            {priceFormatted ? 'Reservar pelo WhatsApp' : 'Consultar pelo WhatsApp'}
           </a>
         )}
       </aside>

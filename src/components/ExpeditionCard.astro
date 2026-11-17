@@ -17,11 +17,13 @@ const difficultyColor: Record<string, string> = {
   Intensa: 'bg-ink/10 text-ink',
 };
 
-const priceFormatted = new Intl.NumberFormat('pt-BR', {
-  style: 'currency',
-  currency: 'BRL',
-  maximumFractionDigits: 0,
-}).format(e.priceFrom);
+const priceFormatted = e.priceFrom
+  ? new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
+      maximumFractionDigits: 0,
+    }).format(e.priceFrom)
+  : null;
 
 const detailHref = withBase(`/expedicoes/${expedition.id}/`);
 
@@ -91,8 +93,17 @@ const cardWhatsapp = whatsappLink(
 
     <div class="mt-5 flex items-center justify-between border-t border-sand pt-4">
       <div>
-        <p class="font-mono text-[11px] uppercase tracking-wide text-stone">a partir de</p>
-        <p class="font-display text-lg font-semibold text-ink">{priceFormatted}</p>
+        {priceFormatted ? (
+          <>
+            <p class="font-mono text-[11px] uppercase tracking-wide text-stone">a partir de</p>
+            <p class="font-display text-lg font-semibold text-ink">{priceFormatted}</p>
+          </>
+        ) : (
+          <>
+            <p class="font-mono text-[11px] uppercase tracking-wide text-stone">investimento</p>
+            <p class="font-display text-lg font-semibold text-ink">Sob consulta</p>
+          </>
+        )}
       </div>
       {e.esgotado ? (
         <span class="rounded-full bg-stone/15 px-4 py-2 font-mono text-xs uppercase tracking-wide text-stone">
@@ -105,7 +116,7 @@ const cardWhatsapp = whatsappLink(
           rel="noopener noreferrer"
           class="btn-whatsapp !px-4 !py-2 text-sm"
         >
-          Reservar
+          {priceFormatted ? 'Reservar' : 'Consultar'}
         </a>
       )}
     </div>

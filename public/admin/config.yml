@@ -151,6 +151,12 @@ collections:
             default: "Olá! Vi o catálogo de expedições e gostaria de mais informações."
             required: false
 
+          - label: "Link da apresentação / slides (opcional)"
+            name: "presentationUrl"
+            widget: "string"
+            required: false
+            hint: "Link público para Google Slides, Canva, Google Drive ou PDF do caderno de expedição."
+
           - label: "Descrição completa"
             name: "body"
             widget: "markdown"

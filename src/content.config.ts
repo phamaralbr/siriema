@@ -70,6 +70,9 @@ const expeditions = defineCollection({
       // for só um dia ou você preferir mostrar uma única data.
       endDate: z.preprocess(blankToUndefined, z.coerce.date().optional()),
 
+      // Link para apresentação/slides ou PDF do caderno de expedição (opcional)
+      presentationUrl: z.preprocess(blankToUndefined, z.string().optional()),
+
       // Marque quando não houver mais vagas. O site esmaece a imagem,
       // mostra um selo "Esgotado" e remove os botões de reserva —
       // continua aparecendo no catálogo, só não dá mais pra reservar.

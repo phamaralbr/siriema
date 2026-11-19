@@ -44,6 +44,7 @@ includes:
   - "Todas as refeições nos dias de pedal inclusas"
 excludes: []
 whatsappMessage: "Olá! Gostaria de mais informações sobre o Caminho de Cora Coralina (19 a 24 de março)."
+presentationUrl: "https://drive.google.com/file/d/1Fw-TsOoa3x7AhHMVznYihbmCjIxyxWN0/view?usp=drive_link"
 ---
 
 O **Caminho de Cora Coralina** percorre estradas históricas, povoados centenários e belas paisagens do Cerrado goiano, ligando Corumbá de Goiás à histórica Cidade de Goiás.
